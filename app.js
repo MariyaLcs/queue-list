@@ -3,8 +3,13 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+app.set("view engine", "ejs");
+
 app.get("/", function (req, res) {
-  res.send("HI");
+  let today = new Date();
+  let currentDay = today.getDay();
+
+  res.render("list", { kindOfDay: currentDay });
 });
 
 app.listen(3000, function () {
