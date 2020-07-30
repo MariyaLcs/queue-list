@@ -6,7 +6,34 @@
     <title>Queue List</title>
   </head>
   <body>
-    <h1>It's a weekday!</h1>
-    <p>Your number is: <%= kindOfDay %></p>
+    <h1><%= kindOfDay %></h1>
+    <ul>
+      <li>Patient name: XXX-1</li>
+      <li>Patient name: XXX-2</li>
+      <li>Patient name: XXX-3</li>
+    </ul>
+    <form action="/" class="" method="POST">
+      <h1 class="h3 mb-3 font-weight-normal">Add New Patient</h1>
+
+      <input
+        type="text"
+        class=""
+        placeholder="First Name"
+        name="fName"
+        required
+        autofocus
+      />
+      <input
+        type="text"
+        class=""
+        placeholder="Last Name"
+        name="lName"
+        required
+      />
+
+      <button class="" type="submit" name="button">
+        Add
+      </button>
+    </form>
   </body>
 </html>
