@@ -8,9 +8,10 @@
   <body>
     <h1><%= kindOfDay %></h1>
     <ul>
-      <li>Patient name: XXX-1</li>
-      <li>Patient name: XXX-2</li>
-      <li>Patient name: XXX-3</li>
+     <% for (var i=0; i<newPatient.length; i++){ %>
+        <li>Patient name: <%= newPatient[i] %></li>
+        <% } %>
+   
     </ul>
     <form action="/" class="" method="POST">
       <h1 class="h3 mb-3 font-weight-normal">Add New Patient</h1>
