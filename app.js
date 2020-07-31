@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
+const date = require(__dirname + "/date");
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -12,9 +14,7 @@ let regularPatientNames = [];
 app.set("view engine", "ejs");
 
 app.get("/", function (req, res) {
-  let today = new Date();
-  const options = { weekday: "long", day: "numeric", month: "long" };
-  let currentDay = today.toLocaleDateString("en-US", options);
+  let currentDay = date();
 
   res.render("list", {
     listTitle: currentDay,
