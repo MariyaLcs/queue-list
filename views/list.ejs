@@ -4,17 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Queue List</title>
+    <link rel="stylesheet" href="../css/styles.css">
   </head>
   <body>
-    <h1><%= kindOfDay %></h1>
-    <ul>
-     <% for (var i=0; i<newPatient.length; i++){ %>
-        <li>Patient name: <%= newPatient[i] %></li>
-        <% } %>
+    <div class="box" id="heading">
+      <h1><%= kindOfDay %></h1>
+    </div>
    
-    </ul>
-    <form action="/" class="" method="POST">
+    <div class="box">
+      <% for (var i=0; i<newPatient.length; i++){ %>
+        <div class="item">
+          <input type="checkbox">
+          <p>Patient name: <%= newPatient[i] %></p>
+        </div>        
+        <% } %>
+    </div>
+    <div class="box" id="heading">
       <h1 class="h3 mb-3 font-weight-normal">Add New Patient</h1>
+    </div>
+     
+    <form action="/" class="" method="POST">   
 
       <input
         type="text"
@@ -23,6 +32,7 @@
         name="fName"
         required
         autofocus
+        autocomplete="off"
       />
       <input
         type="text"
@@ -30,10 +40,11 @@
         placeholder="Last Name"
         name="lName"
         required
+        autocomplete="off"
       />
 
       <button class="" type="submit" name="button">
-        Add
+        +
       </button>
     </form>
   </body>
