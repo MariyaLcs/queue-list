@@ -8,13 +8,13 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-let fullNames = ["XXX"];
-let regularPatientNames = [];
+const fullNames = ["XXX"];
+const regularPatientNames = [];
 
 app.set("view engine", "ejs");
 
 app.get("/", function (req, res) {
-  let currentDay = date();
+  let currentDay = date.getDate();
 
   res.render("list", {
     listTitle: currentDay,
