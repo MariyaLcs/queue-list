@@ -42,12 +42,13 @@ FullName.insertMany(defaultPatients, function (err) {
 app.set("view engine", "ejs");
 
 app.get("/", function (req, res) {
-  let currentDay = date.getDate();
-
-  res.render("list", {
-    listTitle: currentDay,
-    newPatient: fullNames,
+  FullName.find({}, function (err, foundItems) {
+    res.render("list", {
+      listTitle: currentDay,
+      newPatient: foundItems,
+    });
   });
+  let currentDay = date.getDate();
 });
 
 app.post("/", function (req, res) {
