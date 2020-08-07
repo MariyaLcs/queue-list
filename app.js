@@ -13,7 +13,7 @@ app.use(express.static("public"));
 // const regularPatientNames = [];
 
 mongoose.connect("mongodb://localhost:27017/queuelistDB", {
-  useUnifiedTopology: true,
+  useNewUrlParser: true,
 });
 const fullNamesSchema = {
   firstName: String,
@@ -31,24 +31,28 @@ const patient2 = new FullName({
 });
 
 const defaultPatients = [patient1, patient2];
-FullName.insertMany(defaultPatients, function (err) {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log("Successfully saved default items to DB");
-  }
-});
 
 app.set("view engine", "ejs");
 
 app.get("/", function (req, res) {
-  FullName.find({}, function (err, foundItems) {
-    res.render("list", {
-      listTitle: currentDay,
-      newPatient: foundItems,
-    });
-  });
   let currentDay = date.getDate();
+  FullName.find({}, function (err, foundItems) {
+    if (foundItems.length === 0) {
+      FullName.insertMany(defaultPatients, function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Successfully saved default items to DB");
+        }
+      });
+      res.redirect("/");
+    } else {
+      res.render("list", {
+        listTitle: currentDay,
+        newPatient: foundItems,
+      });
+    }
+  });
 });
 
 app.post("/", function (req, res) {
