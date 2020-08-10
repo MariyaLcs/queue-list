@@ -20,3 +20,5 @@
   use queuelistDB  
   show collections  
   db.fullnames.find()
+
+  db.dropDatabase()

@@ -58,14 +58,13 @@ app.get("/", function (req, res) {
 app.post("/", function (req, res) {
   const firstName = req.body.fName;
   const lastName = req.body.lName;
-  const fullName = `${firstName} ${lastName}`;
 
-  if (req.body.list === "regular-patient") {
-    regularPatientNames.push(fullName);
-  } else {
-    fullNames.push(fullName);
-    res.redirect("/");
-  }
+  const patient = new FullName({
+    firstName: firstName,
+    lastName: lastName,
+  });
+  patient.save();
+  res.redirect("/");
 });
 
 app.get("/regular-patient", function (req, res) {
