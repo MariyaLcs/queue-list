@@ -63,12 +63,22 @@ app.post("/", function (req, res) {
   const firstName = req.body.fName;
   const lastName = req.body.lName;
 
+  const listName = req.body.list;
+
   const patient = new FullName({
     firstName: firstName,
     lastName: lastName,
   });
-  patient.save();
-  res.redirect("/");
+  if (listName === "/") {
+    patient.save();
+    res.redirect("/");
+  } else {
+    List.findOne({ name: listName }, function (err, foundList) {
+      foundList.items.push(patient);
+      foundList.save();
+      res.redirect("/" + listName);
+    });
+  }
 });
 
 app.get("/:customListName", function (req, res) {
@@ -99,10 +109,6 @@ app.post("/regular-patient", function (req, res) {
   regularPatientNames.push(fullName);
   res.redirect("/regular");
 });
-
-// app.get("/firstVisit", function (req, res) {
-//   res.render("list", { listTitle: "" });
-// });
 
 app.post("/delete", function (req, res) {
   const chekedItemId = req.body.checkbox;
