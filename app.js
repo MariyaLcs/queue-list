@@ -82,7 +82,7 @@ app.post("/", function (req, res) {
 });
 
 app.get("/:customListName", function (req, res) {
-  const customListName = req.params.customListName;
+  const customListName = _.capitalize(req.params.customListName);
 
   List.findOne({ name: customListName }, function (err, foundList) {
     if (!err) {
@@ -100,14 +100,6 @@ app.get("/:customListName", function (req, res) {
       }
     }
   });
-});
-
-app.post("/regular-patient", function (req, res) {
-  const firstName = req.body.fName;
-  const lastName = req.body.lName;
-  const fullName = `${firstName} ${lastName}`;
-  regularPatientNames.push(fullName);
-  res.redirect("/regular");
 });
 
 app.post("/delete", function (req, res) {
