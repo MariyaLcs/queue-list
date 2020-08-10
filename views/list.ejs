@@ -5,17 +5,19 @@
    
     <div class="box">
       <% newPatient.forEach(function(item){ %>
+      <form action="/delete" method="post">
         <div class="item">
-          <input type="checkbox">
+          <input type="checkbox" onChange="this.form.submit()" name="checkbox" value="<%= item._id%>">
           <p>Patient name: <%= `${item.firstName} ${item.lastName}` %></p>
         </div>        
+        </form>
         <% }) %>
     </div>
     <div class="box" id="heading">
       <h1 class="h3 mb-3 font-weight-normal">Add New Patient</h1>
     </div>
      
-    <form action="/" class="" method="POST">   
+    <form action="/" method="POST">   
 
       <input
         type="text"

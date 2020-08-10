@@ -86,6 +86,16 @@ app.post("/regular-patient", function (req, res) {
 //   res.render("list", { listTitle: "" });
 // });
 
+app.post("/delete", function (req, res) {
+  const chekedItemId = req.body.checkbox;
+  FullName.findByIdAndRemove(chekedItemId, function (err) {
+    if (!err) {
+      console.log("Succesfully deleted checked item!");
+      res.redirect("/");
+    }
+  });
+});
+
 app.listen(3000, function () {
   console.log("Server is running on port 3000");
 });
