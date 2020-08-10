@@ -25,12 +25,12 @@ const patient1 = new FullName({
   firstName: "John",
   lastName: "Doe",
 });
-const patient2 = new FullName({
-  firstName: "Kate",
-  lastName: "Doe",
-});
+// const patient2 = new FullName({
+//   firstName: "Kate",
+//   lastName: "Doe",
+// });
 
-const defaultPatients = [patient1, patient2];
+const defaultPatients = [patient1];
 
 const listSchema = { name: String, items: [fullNamesSchema] };
 
@@ -39,7 +39,7 @@ const List = mongoose.model("List", listSchema);
 app.set("view engine", "ejs");
 
 app.get("/", function (req, res) {
-  let currentDay = date.getDate();
+  // let currentDay = date.getDate();
   FullName.find({}, function (err, foundItems) {
     if (foundItems.length === 0) {
       FullName.insertMany(defaultPatients, function (err) {
@@ -52,7 +52,7 @@ app.get("/", function (req, res) {
       res.redirect("/");
     } else {
       res.render("list", {
-        listTitle: currentDay,
+        listTitle: "Today",
         newPatient: foundItems,
       });
     }
@@ -69,7 +69,7 @@ app.post("/", function (req, res) {
     firstName: firstName,
     lastName: lastName,
   });
-  if (listName === "/") {
+  if (listName === "Today") {
     patient.save();
     res.redirect("/");
   } else {
@@ -111,13 +111,27 @@ app.post("/regular-patient", function (req, res) {
 });
 
 app.post("/delete", function (req, res) {
-  const chekedItemId = req.body.checkbox;
-  FullName.findByIdAndRemove(chekedItemId, function (err) {
-    if (!err) {
-      console.log("Succesfully deleted checked item!");
-      res.redirect("/");
-    }
-  });
+  const checkedItemId = req.body.checkbox;
+  const listName = req.body.listName;
+
+  if (listName === "Today") {
+    FullName.findByIdAndRemove(checkedItemId, function (err) {
+      if (!err) {
+        console.log("Successfully deleted checked item.");
+        res.redirect("/");
+      }
+    });
+  } else {
+    List.findOneAndUpdate(
+      { name: listName },
+      { $pull: { items: { _id: checkedItemId } } },
+      function (err, foundList) {
+        if (!err) {
+          res.redirect("/" + listName);
+        }
+      }
+    );
+  }
 });
 
 app.listen(3000, function () {

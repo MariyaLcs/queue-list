@@ -23,3 +23,5 @@
 
   db.dropDatabase()
   db.lists.drop()
+
+* lodash (npm i lodash)
