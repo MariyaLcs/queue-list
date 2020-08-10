@@ -22,3 +22,4 @@
   db.fullnames.find()
 
   db.dropDatabase()
+  db.lists.drop()

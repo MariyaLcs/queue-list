@@ -32,6 +32,10 @@ const patient2 = new FullName({
 
 const defaultPatients = [patient1, patient2];
 
+const listSchema = { name: String, items: [fullNamesSchema] };
+
+const List = mongoose.model("List", listSchema);
+
 app.set("view engine", "ejs");
 
 app.get("/", function (req, res) {
@@ -67,10 +71,24 @@ app.post("/", function (req, res) {
   res.redirect("/");
 });
 
-app.get("/regular-patient", function (req, res) {
-  res.render("list", {
-    listTitle: "Regular Patient",
-    newPatient: regularPatientNames,
+app.get("/:customListName", function (req, res) {
+  const customListName = req.params.customListName;
+
+  List.findOne({ name: customListName }, function (err, foundList) {
+    if (!err) {
+      if (!foundList) {
+        //create new list
+        const list = new List({ name: customListName, items: defaultPatients });
+        list.save();
+        res.redirect("/" + customListName);
+      } else {
+        //show an existing list
+        res.render("list", {
+          listTitle: foundList.name,
+          newPatient: foundList.items,
+        });
+      }
+    }
   });
 });
 
